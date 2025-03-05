@@ -3,6 +3,23 @@ import logging
 from datetime import datetime, timedelta
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
+import os
+from flask import Flask
+from threading import Thread
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run_flask():
+    port = int(os.environ.get('PORT', 8080))  # Важно для Railway
+    app.run(host='0.0.0.0', port=port)
+
+# Запуск Flask в отдельном потоке
+flask_thread = Thread(target=run_flask)
+flask_thread.start()
 
 # Настройки
 BOT_TOKEN = '7892638380:AAEE2HMiUBPzL_VyB7m1XUHYxrrPm4EarEo'
